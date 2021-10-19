@@ -1,22 +1,27 @@
 package com.poll.pollService.consumer;
 
 import com.poll.pollService.emailSender.EmailServiceImpl;
+import com.poll.pollService.utils.Users;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.JmsException;
 import org.springframework.jms.annotation.JmsListener;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Component
 public class Consumer {
 
     private String email;
-    private EmailServiceImpl emailService;
+    private List<Users> userList;
 
-    @Autowired
-    public Consumer(EmailServiceImpl emailService) {
-        this.emailService = emailService;
+    public Consumer() {
+        this.userList = new ArrayList<>();
     }
 
     public void saveEmail(String email){
@@ -24,29 +29,20 @@ public class Consumer {
         this.email = email;
     }
 
+    public List<Users> getUserList() {
+        return userList;
+    }
+
     @JmsListener(destination = "fila1")
     public void receiveMessage(String message) throws JmsException {
 
-        log.info("Message Received: " + message);
+        log.info("vote computed " + message);
+        log.info("next check" + email);
 
-        try{
-            if (message.equals("VOTE_REJECTING")) {
 
-                emailService.sendSimpleMessage(email,
-                                              "Email Teste",
-                                              "Email direto da minha java app");
-            }
+       if(email != null){
+           userList.add(new Users(email, message));
 
-            if (message.equals("VOTE_APPROVING")) {
-
-                emailService.sendSimpleMessage(email,
-                                            "Email Teste",
-                                            "Email direto da minha java app");
-            }
-
-        }catch(Exception e){
-
-            log.info("it did not return a compatible message");
         }
 
     }
