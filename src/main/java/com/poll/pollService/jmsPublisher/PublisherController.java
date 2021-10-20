@@ -1,6 +1,10 @@
-package com.poll.pollService.JmsPublisher;
+package com.poll.pollService.jmsPublisher;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poll.pollService.consumer.Consumer;
+import com.poll.pollService.dto.EmailDTO;
+import com.poll.pollService.repository.UserRepository;
 import com.poll.pollService.utils.UserDecision;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,11 @@ public class PublisherController {
 
     @Autowired
     Consumer consumer;
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     UserDecision decision;
 
@@ -22,9 +31,10 @@ public class PublisherController {
 
     //get email before anything else
     @PostMapping()
-    public String getEmail(@RequestBody String email){
+    public String getEmail(@RequestBody EmailDTO email) throws JsonProcessingException {
 
-        consumer.saveEmail(email);
+       // String map = objectMapper.writeValueAsString(email.getAddress());
+        this.userRepository.setEmail(objectMapper.writeValueAsString(email.getAddress()));
         return "Email saved.";
     }
 
