@@ -1,4 +1,4 @@
-package com.poll.pollService.utils;
+package com.poll.pollService.dto;
 
 import lombok.Getter;
 import lombok.Setter;

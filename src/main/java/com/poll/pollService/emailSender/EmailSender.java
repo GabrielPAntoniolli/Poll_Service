@@ -1,7 +1,7 @@
 package com.poll.pollService.emailSender;
 
 import com.poll.pollService.consumer.Consumer;
-import com.poll.pollService.utils.Users;
+import com.poll.pollService.dto.Users;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;

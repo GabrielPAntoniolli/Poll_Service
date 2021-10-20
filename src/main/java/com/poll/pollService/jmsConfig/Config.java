@@ -1,4 +1,4 @@
-package com.poll.pollService.JmsConfig;
+package com.poll.pollService.jmsConfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
